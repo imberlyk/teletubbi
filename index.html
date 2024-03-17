@@ -1,74 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebXR AR Example</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/ar.js/aframe/build/aframe-ar.js"></script>
 </head>
-<body style="margin: 0;">
-  <script>
-    // Check if WebXR is supported
-    if ('xr' in navigator) {
-      // Request AR session
-      navigator.xr.requestSession('immersive-ar').then(onSessionStart);
-    } else {
-      // WebXR not supported
-      console.log('WebXR not supported');
-    }
+<body style='margin: 0px; overflow: hidden;'>
+  <a-scene embedded arjs>
+    <!-- Marker -->
+    <a-marker type="pattern" url="img/pattern-marker1.patt">
+      <!-- Image Plane -->
+      <a-plane id="imagePlane" position="0 0 0" rotation="-90 0 0" width="3.863" height="5.469" material="shader: flat; src:img/step1.jpg"></a-plane>
+    </a-marker>
+    
+    <!-- Camera Entity -->
+    <a-entity camera smooth-camera look-controls></a-entity>
+  </a-scene>
 
-    function onSessionStart(session) {
-      // Create WebGL renderer
-      const renderer = new THREE.WebGLRenderer({ antialias: true });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      document.body.appendChild(renderer.domElement);
-
-      // Create scene
-      const scene = new THREE.Scene();
-
-      // Create camera
-      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      scene.add(camera);
-
-      // Create a plane (for displaying the image)
-      const planeGeometry = new THREE.PlaneGeometry(1, 1);
-      const textureLoader = new THREE.TextureLoader();
-      const texture = textureLoader.load('img/step1.png'); // Load the image texture
-      const planeMaterial = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
-      const plane = new THREE.Mesh(planeGeometry, planeMaterial);
-      plane.visible = false; // Initially hide the plane
-      scene.add(plane);
-
-      // Create XR reference space
-      session.updateRenderState({ baseLayer: new XRWebGLLayer(session, renderer) });
-      const xrReferenceSpace = await session.requestReferenceSpace('local');
-
-      // Hit test source
-      const hitTestSource = await session.requestHitTestSource({ space: xrReferenceSpace });
-
-      // Render loop
-      session.requestAnimationFrame(onXRFrame);
-      function onXRFrame(t, frame) {
-        session.requestAnimationFrame(onXRFrame);
-
-        // Perform hit test
-        const hitTestResults = frame.getHitTestResults(hitTestSource);
-        if (hitTestResults.length > 0) {
-          // Get the hit pose
-          const hitPose = hitTestResults[0].getPose(xrReferenceSpace);
-          if (hitPose) {
-            // Update plane position and rotation to match the hit pose
-            plane.position.set(hitPose.transform.position.x, hitPose.transform.position.y, hitPose.transform.position.z);
-            plane.rotation.setFromQuaternion(hitPose.transform.orientation);
-
-            // Show the plane
-            plane.visible = true;
-          }
-        }
-
-        // Get XR viewer pose
-        const pose = frame.getViewerPose(xrReferenceSpace);
-        if (pose) {
-          // Update camera pose
-          const viewerPose = pose.views[0];
-          camera.matrix.fromArray(viewerP
+  <!-- Your custom script -->
+  <script src="script.js"></script>
+</body>
+</html>
