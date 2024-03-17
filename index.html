@@ -71,14 +71,4 @@
         if (pose) {
           // Update camera pose
           const viewerPose = pose.views[0];
-          camera.matrix.fromArray(viewerPose.transform.matrix);
-          camera.updateMatrixWorld(true);
-
-          // Render scene
-          renderer.render(scene, camera);
-        }
-      }
-    }
-  </script>
-</body>
-</html>
+          camera.matrix.fromArray(viewerP
