@@ -7,10 +7,9 @@
 <body style='margin: 0px; overflow: hidden;'>
   <a-scene embedded arjs>
     <a-marker type="pattern" url="img/pattern-marker.patt">
-      <a-box position='0 0.5 0' material='color: yellow;'></a-box>
+      <!-- Image Plane -->
+      <a-plane id="imagePlane" position="0 0 0" rotation="-90 0 0" width="1.024" height="1.450" material="shader: flat; scale: 2 2 2; src:img/step1.png"></a-plane>
     </a-marker>
-    <!-- Make sure to separate attributes with semicolons -->
-    <a-plane id="imagePlane" position="0 0 0" rotation="-90 0 0" width="1.024" height="1.450"  material="shader: flat; scale: 2 2 2; src:img/step1.png"></a-plane>
     <a-entity camera></a-entity>
   </a-scene>
 </body>
