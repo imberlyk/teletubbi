@@ -6,6 +6,7 @@
 </head>
 <body style='margin: 0px; overflow: hidden;'>
   <a-scene embedded xr-mode-ui="enabled: false">
+
     <!-- Marker Image -->
     <a-image src="img/image_marker1.png" width="1" height="1" position="0 0 -2"></a-image>
 
@@ -13,10 +14,29 @@
     <a-plane id="imagePlane" position="0 0 0" rotation="-90 0 0" width="3.863" height="5.469" material="shader: flat; src:img/step1.jpg" visible="false"></a-plane>
     
     <!-- Camera Entity -->
-    <a-entity camera look-controls></a-entity>
-  </a-scene>
+    <a-entity id="cameraRig" camera look-controls></a-entity>
 
-  <!-- Your custom script -->
-  <script src="script.js"></script>
+    <!-- Script -->
+    <script>
+      // Wait for A-Frame to be loaded
+      document.addEventListener('DOMContentLoaded', function () {
+        var sceneEl = document.querySelector('a-scene');
+        var imagePlane = document.querySelector('#imagePlane');
+
+        // Register a marker found event listener
+        sceneEl.addEventListener('markerFound', function (event) {
+          // Show the image plane when marker is found
+          imagePlane.setAttribute('visible', true);
+        });
+
+        // Register a marker lost event listener
+        sceneEl.addEventListener('markerLost', function (event) {
+          // Hide the image plane when marker is lost
+          imagePlane.setAttribute('visible', false);
+        });
+      });
+    </script>
+
+  </a-scene>
 </body>
 </html>
