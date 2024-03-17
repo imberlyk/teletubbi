@@ -1,0 +1,14 @@
+<!doctype HTML>
+<html>
+<script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+<script src="https://raw.githack.com/jeromeetienne/AR.js/2.0.8/aframe/build/aframe-ar.js"></script>
+  <body style='margin : 0px; overflow: hidden;'>
+    <a-scene embedded arjs>
+      <a-marker  type="pattern" url="pattern-isolated-silhouette.patt">
+          <a-box position='0 0.5 0' material='color: yellow;'></a-box>
+      </a-marker>
+      <a-plane id="imagePlane" position="0 0 0" rotation="-90 0 0" width="5" height="2.25" material="shader: flat; scale: 2 2 2; src:step1.png"></a-plane>
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>
